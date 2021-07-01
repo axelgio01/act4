@@ -63,7 +63,7 @@ def move():
 
     # Generar movimiento del balon
     if inside(ball):
-        # Modificar el valor del vector de velocidad para simular tiro parabolico
+        # Modificar el valor del vector de velocidad para tiro parabolico
         speed.y -= 0.35
         ball.move(speed)
 
