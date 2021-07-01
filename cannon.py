@@ -1,7 +1,5 @@
 """
-
 Cannon, hitting targets with projectiles.
-
 """
 
 # Librerias que van a estar siendo usadas
@@ -14,36 +12,44 @@ from freegames import vector
 ball = vector(-200, -200)
 # Vector de velocidad para el balon
 speed = vector(0, 0)
-# Cosas a las que se le tiene que pegar
+# Cosas a las que se le tiene que pegar (targets)
 targets = []
 
 
 def tap(x, y):
     "Respond to screen tap."
+    # En caso de que no haya una pelota en el programa, se genera una nueva
     if not inside(ball):
+        # Posicion inicial de la pelota en la esquina inferior izquierda
         ball.x = -199
         ball.y = -199
+        # Velocidad de la pelota en funcion de  donde se toco la pantalla
         speed.x = (x + 200) / 25
         speed.y = (y + 200) / 25
 
 
 def inside(xy):
     "Return True if xy within screen."
+    # Dado un objeto xy (pelota o target), regresa si esta en pantalla
     return -200 < xy.x < 200 and -200 < xy.y < 200
 
 
 def draw():
     "Draw ball and targets."
+    # Borrar todo lo existente en pantalla
     clear()
 
+    # Dibujar todos los targets
     for target in targets:
         goto(target.x, target.y)
         dot(20, 'blue')
 
+    # Dibujar la pelota
     if inside(ball):
         goto(ball.x, ball.y)
         dot(6, 'red')
 
+    # Asegurarse de que se realice el cambio
     update()
 
 
@@ -67,6 +73,7 @@ def move():
         speed.y -= 0.35
         ball.move(speed)
 
+    # Variable auxiliar dupe que se usara para desechar las colisiones
     dupe = targets.copy()
     targets.clear()
 
@@ -87,11 +94,14 @@ def move():
     # Repetir cada 1 milisegundo
     ontimer(move, 1)
 
-
+# Configuracion de la pantalla
 setup(420, 420, 370, 0)
+# Esconder la Turtle para que no se vea lo que pasa "detras de la cortina"
 hideturtle()
 up()
 tracer(False)
+# Responsibidad para detectar toques en la pantalla
 onscreenclick(tap)
+# Funcion para dibujar lo que se encuentra en pantalla
 move()
 done()
